@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useZxing } from "react-zxing";
 
 import "./ScanPDF417.css"
@@ -6,21 +6,11 @@ import "./ScanPDF417.css"
 export const BarcodeScanner = () => {
   const [result, setResult] = useState("");
   const [scanning, setScanning] = useState(false); 
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+ 
 
   const startScanning = () => {
     setResult(""); 
     setScanning(true); 
-
-    navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
-    .then((stream) => {
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-    })
-    .catch((error) => {
-      console.error('Error accessing camera:', error);
-    });
   };
 
   
