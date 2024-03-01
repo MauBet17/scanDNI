@@ -1,25 +1,26 @@
+
+
 import { useState } from "react";
 import { useZxing } from "react-zxing";
-
-import "./ScanPDF417.css"
+import { useMediaDevices } from "react-media-devices"; // Importa useMediaDevices
+import "./ScanPDF417.css";
 
 export const BarcodeScanner = () => {
   const [result, setResult] = useState("");
-  const [scanning, setScanning] = useState(false); 
+  const [scanning, setScanning] = useState(false);
 
   const startScanning = () => {
-    setResult(""); 
-    setScanning(true); 
+    setResult("");
+    setScanning(true);
   };
 
-  
   const resetScanning = () => {
-    setResult(""); 
-    setScanning(true); 
+    setResult("");
+    setScanning(true);
   };
 
   const stopScanning = () => {
-    setResult(""); 
+    setResult("");
     setScanning(false);
   };
 
@@ -75,10 +76,12 @@ export const BarcodeScanner = () => {
       } else {
         console.log("El 7mo dato no es una fecha válida");
       }
-      
     },
     paused: !scanning,
   });
+
+  // Obtén la lista de dispositivos
+  const { devices } = useMediaDevices();
 
   // Función para validar el formato de fecha
   function isValidDate(dateString: string) {
@@ -92,25 +95,32 @@ export const BarcodeScanner = () => {
       <div className="scanContent">
         <video className="scanVideo" ref={ref} />
 
+        {/* Mostrar la lista de dispositivos */}
+        <div className="devicesList">
+          <h5>Dispositivos:</h5>
+          <ul>
+            {devices?.map((device) => (
+              <li key={device.deviceId}>{device.label}</li>
+            ))}
+          </ul>
+        </div>
+
         {!scanning ? (
-          <button className="btnScan" onClick={startScanning}>Iniciar escaneo</button>
+          <button className="btnScan" onClick={startScanning}>
+            Iniciar escaneo
+          </button>
         ) : (
-          <button className="btnScan" onClick={resetScanning}>Reiniciar escaneo</button>
+          <button className="btnScan" onClick={resetScanning}>
+            Reiniciar escaneo
+          </button>
         )}
 
         <div className="results">
-          <h5>
-            Last result:
-          </h5>
-
-          <p>
-            {result}
-          </p>
-
+          <h5>Last result:</h5>
+          <p>{result}</p>
           <button onClick={stopScanning}>Cerrar Scan</button>
         </div>
       </div>
     </>
   );
 };
-
