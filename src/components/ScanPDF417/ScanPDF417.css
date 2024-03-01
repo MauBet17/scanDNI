@@ -14,16 +14,22 @@
 .results {
     width: 100% !important;
     word-wrap: break-word !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .results h5 {
     margin-bottom: 0%;
+    text-align: center;
 }
 
 .results p {
     font-size: 12px;
     color: red;
     font-weight: 700;
+    text-align: center;
 }
 
 .btnScan {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useZxing } from "react-zxing";
-import { useMediaDevices } from "react-media-devices"; // Importa useMediaDevices
+// import { useMediaDevices } from "react-media-devices"; // Importa useMediaDevices
 import "./ScanPDF417.css";
 
 export const BarcodeScanner = () => {
@@ -81,7 +81,7 @@ export const BarcodeScanner = () => {
   });
 
   // Obtén la lista de dispositivos
-  const { devices } = useMediaDevices();
+  // const { devices } = useMediaDevices();
 
   // Función para validar el formato de fecha
   function isValidDate(dateString: string) {
@@ -96,14 +96,14 @@ export const BarcodeScanner = () => {
         <video className="scanVideo" ref={ref} />
 
         {/* Mostrar la lista de dispositivos */}
-        <div className="devicesList">
+        {/* <div className="devicesList">
           <h5>Dispositivos:</h5>
           <ul>
             {devices?.map((device) => (
               <li key={device.deviceId}>{device.label}</li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
         {!scanning ? (
           <button className="btnScan" onClick={startScanning}>
