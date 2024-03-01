@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useZxing } from "react-zxing";
+import { useEffect } from "react";
 
 import "./ScanPDF417.css"
 
@@ -12,7 +13,6 @@ export const BarcodeScanner = () => {
     setScanning(true); 
   };
 
-  
   const resetScanning = () => {
     setResult(""); 
     setScanning(true); 
@@ -87,6 +87,27 @@ export const BarcodeScanner = () => {
     return dateRegex.test(dateString);
   }
 
+  useEffect(() => {
+    async function setupCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 4096 },
+            height: { ideal: 2160 }
+          }
+        });
+        if (ref.current) {
+          ref.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error('Error al acceder a la cámara:', error);
+      }
+    }
+    if (scanning) {
+      setupCamera();
+    }
+  }, [scanning, ref]);
+
   return (
     <>
       <div className="scanContent">
@@ -113,4 +134,3 @@ export const BarcodeScanner = () => {
     </>
   );
 };
-
