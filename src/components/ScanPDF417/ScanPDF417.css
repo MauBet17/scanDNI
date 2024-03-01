@@ -1,0 +1,27 @@
+.scanContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    width: 100%;
+}
+
+.scanVideo {
+    width: 100%;
+}
+
+.results {
+    width: 100% !important;
+    word-wrap: break-word !important;
+}
+
+.results h5 {
+    margin-bottom: 0%;
+}
+
+.results p {
+    font-size: 12px;
+    color: red;
+    font-weight: 700;
+}
