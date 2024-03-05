@@ -32,11 +32,7 @@ export const BarcodeScanner = () => {
               // width: { ideal: 1920 }, // Intenta establecer una resolución más baja
               // height: { ideal: 1080 },  // Intenta establecer una resolución más baja
               // Utilizar cámara trasera si está disponible
-              zoom: (2), // Aplicar un zoom de factor 2
-
-              focusMode: 'continuous', // Enfoque continuo para mantener la imagen nítida
-              whiteBalanceMode: 'continuous', // Balance de blancos continuo para ajustar automáticamente el color
-              exposureMode: 'continuous' // Modo de exposición continuo para ajustar automáticamente la exposición
+            
 
 
             }
