@@ -53,6 +53,7 @@
 @media screen and (max-width: 600px) {
     .smallScreen {
       width: 100%; /* Tamaño reducido para pantallas pequeñas */
+      
     }
 
     .videoWrapper {
