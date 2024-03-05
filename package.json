@@ -13,6 +13,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-media-devices": "^1.1.5",
+    "react-webcam": "^7.2.0",
     "react-zxing": "^2.0.0"
   },
   "devDependencies": {
