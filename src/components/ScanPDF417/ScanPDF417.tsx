@@ -31,12 +31,12 @@ export const BarcodeScanner = () => {
               // height: { ideal: 1080 },  // Intenta establecer una resolución más baja
               facingMode: 'environment', // Utilizar cámara trasera si está disponible
               zoom: 2, // Aplicar un zoom de factor 2
-              
+
               focusMode: 'continuous', // Enfoque continuo para mantener la imagen nítida
               whiteBalanceMode: 'continuous', // Balance de blancos continuo para ajustar automáticamente el color
               exposureMode: 'continuous' // Modo de exposición continuo para ajustar automáticamente la exposición
-              
-              
+
+
             }
           })
             .then(function (stream) {
@@ -159,8 +159,10 @@ export const BarcodeScanner = () => {
   return (
     <>
       <div className="scanContent">
-        <video className={window.innerWidth <= 600 ? 'scanVideo smallScreen' : 'scanVideo'} ref={ref}  />
-
+        <div className="videoWrapper">
+          <video className={window.innerWidth <= 600 ? 'scanVideo smallScreen' : 'scanVideo'} ref={ref} />
+          <div className="border"></div>
+        </div>
         {!scanning ? (
           <button className="btnScan" onClick={startScanning}>Iniciar escaneo</button>
         ) : (

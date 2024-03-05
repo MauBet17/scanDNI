@@ -40,11 +40,33 @@
   }
 
 
+  .videoWrapper {
+    width: 100%;
 
+
+    display: flex;
+    justify-content: center;
+  }
+  
 
 
 @media screen and (max-width: 600px) {
     .smallScreen {
       width: 100%; /* Tamaño reducido para pantallas pequeñas */
     }
+
+    .videoWrapper {
+        position: relative;
+      }
+      
+      .border {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
+        height: calc(85% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
+        border: 2px solid red; /* Grosor y color del borde */
+        pointer-events: none; /* Evita que el borde interfiera con el escaneo */
+      }
   }
