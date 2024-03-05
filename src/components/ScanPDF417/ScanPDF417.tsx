@@ -20,6 +20,24 @@ export const BarcodeScanner = () => {
         });
 
         setAvailableCameras(cameras);
+
+        cameras.forEach(function(camera) {
+          navigator.mediaDevices.getUserMedia({
+            video: { deviceId: { exact: camera.deviceId } }
+          })
+            .then(function(stream) {
+              console.log('Stream:', stream);
+              const track = stream.getVideoTracks()[0];
+              const capabilities = track.getCapabilities();
+
+              if (capabilities.width && capabilities.height && capabilities.width.max && capabilities.height.max) {
+                if (capabilities.width.max * capabilities.height.max > maxResolution.width * maxResolution.height) {
+                  setMaxResolution({ width: capabilities.width.max, height: capabilities.height.max });
+                  setMaxResolutionDevice(camera);
+                }
+              }
+            });
+        });
       })
       .catch(function(err) {
         console.log(err.name + ": " + err.message);
@@ -140,7 +158,20 @@ export const BarcodeScanner = () => {
                 Available Cameras:
                 <ul>
                   {availableCameras.map((camera, index) => (
-                    <li key={index}>{camera.label}</li>
+                    <li key={index} onClick={() => {
+                      setMaxResolutionDevice(camera);
+                      // Retrieve resolution for selected camera
+                      navigator.mediaDevices.getUserMedia({
+                        video: { deviceId: { exact: camera.deviceId } }
+                      })
+                        .then(function(stream) {
+                          const track = stream.getVideoTracks()[0];
+                          const capabilities = track.getCapabilities();
+                          if (capabilities.width && capabilities.height && capabilities.width.max && capabilities.height.max) {
+                            setMaxResolution({ width: capabilities.width.max, height: capabilities.height.max });
+                          }
+                        });
+                    }}>{camera.label}</li>
                   ))}
                 </ul>
               </>
