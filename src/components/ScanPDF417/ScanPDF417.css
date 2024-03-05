@@ -64,9 +64,10 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: calc(100% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
+        width: calc(98% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
         height: calc(85% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
-        border: 2px solid red; /* Grosor y color del borde */
+        border: 1px solid red; /* Grosor y color del borde */
         pointer-events: none; /* Evita que el borde interfiera con el escaneo */
+       
       }
   }
