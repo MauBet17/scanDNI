@@ -35,7 +35,7 @@
 }
 
 .scanVideo {
-    width: 40%; /* Ancho predeterminado */
+    width: 100%; /* Ancho predeterminado */
     height: auto;
   }
 

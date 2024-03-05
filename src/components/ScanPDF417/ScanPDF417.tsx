@@ -78,63 +78,63 @@ export const BarcodeScanner = () => {
   const { ref } = useZxing({
     onDecodeResult(result) {
       const data = result.getText();
-      const dataArray = data.split("@");
-      if (dataArray.length !== 8) {
-        setResult("Número incorrecto de datos");
-        return;
-      }
+      // const dataArray = data.split("@");
+      // if (dataArray.length !== 8) {
+      //   setResult("Número incorrecto de datos");
+      //   return;
+      // }
 
-      if (!/^\d+$/.test(dataArray[0])) {
-        setResult("El primer dato no es numérico");
-        return;
-      }
+      // if (!/^\d+$/.test(dataArray[0])) {
+      //   setResult("El primer dato no es numérico");
+      //   return;
+      // }
 
-      if (!/^[a-zA-Z\s]+$/.test(dataArray[1])) {
-        setResult("El segundo dato no es texto");
-        return;
-      }
+      // if (!/^[a-zA-Z\s]+$/.test(dataArray[1])) {
+      //   setResult("El segundo dato no es texto");
+      //   return;
+      // }
 
-      if (!/^[a-zA-Z\s]+$/.test(dataArray[2])) {
-        setResult("El tercer dato no es texto");
-        return;
-      }
+      // if (!/^[a-zA-Z\s]+$/.test(dataArray[2])) {
+      //   setResult("El tercer dato no es texto");
+      //   return;
+      // }
 
-      if (!/^[a-zA-Z\s]+$/.test(dataArray[3])) {
-        setResult("El cuarto dato no es texto");
-        return;
-      }
+      // if (!/^[a-zA-Z\s]+$/.test(dataArray[3])) {
+      //   setResult("El cuarto dato no es texto");
+      //   return;
+      // }
 
-      if (!/^\d+$/.test(dataArray[4])) {
-        setResult("El quinto dato no es numérico");
-        return;
-      }
+      // if (!/^\d+$/.test(dataArray[4])) {
+      //   setResult("El quinto dato no es numérico");
+      //   return;
+      // }
 
-      if (!/^[a-zA-Z\s]+$/.test(dataArray[5])) {
-        setResult("El sexto dato no es texto");
-        return;
-      }
+      // if (!/^[a-zA-Z\s]+$/.test(dataArray[5])) {
+      //   setResult("El sexto dato no es texto");
+      //   return;
+      // }
 
-      if (!isValidDate(dataArray[6])) {
-        setResult("El séptimo dato no es una fecha válida");
-        return;
-      }
+      // if (!isValidDate(dataArray[6])) {
+      //   setResult("El séptimo dato no es una fecha válida");
+      //   return;
+      // }
 
-      if (!isValidDate(dataArray[7])) {
-        setResult("El octavo dato no es una fecha válida");
-        return;
-      }
+      // if (!isValidDate(dataArray[7])) {
+      //   setResult("El octavo dato no es una fecha válida");
+      //   return;
+      // }
 
       setResult(data);
     },
     paused: !scanning,
   });
 
-  // Función para validar el formato de fecha
-  function isValidDate(dateString: string) {
-    // Expresión regular para validar el formato "dd/mm/aaaa"
-    const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
-    return dateRegex.test(dateString);
-  }
+  // // Función para validar el formato de fecha
+  // function isValidDate(dateString: string) {
+  //   // Expresión regular para validar el formato "dd/mm/aaaa"
+  //   const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+  //   return dateRegex.test(dateString);
+  // }
 
   return (
     <>
