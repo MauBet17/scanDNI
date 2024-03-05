@@ -26,13 +26,18 @@ export const BarcodeScanner = () => {
         videoDevices.forEach(function (device) {
           navigator.mediaDevices.getUserMedia({
             video: {
-              deviceId: { 
-                exact: device.deviceId 
+              deviceId: {
+                exact: device.deviceId
               },
               // width: { ideal: 1920 }, // Intenta establecer una resolución más baja
               // height: { ideal: 1080 },  // Intenta establecer una resolución más baja
-               // Utilizar cámara trasera si está disponible
-              
+              // Utilizar cámara trasera si está disponible
+              zoom: (2), // Aplicar un zoom de factor 2
+
+              focusMode: 'continuous', // Enfoque continuo para mantener la imagen nítida
+              whiteBalanceMode: 'continuous', // Balance de blancos continuo para ajustar automáticamente el color
+              exposureMode: 'continuous' // Modo de exposición continuo para ajustar automáticamente la exposición
+
 
             }
           })
@@ -159,7 +164,7 @@ export const BarcodeScanner = () => {
         <div className="videoWrapper">
           <video className={window.innerWidth <= 600 ? 'scanVideo smallScreen' : 'scanVideo'} ref={ref} />
           <div className="border"></div>
-         
+
         </div>
         {!scanning ? (
           <button className="btnScan" onClick={startScanning}>Iniciar escaneo</button>
@@ -174,6 +179,14 @@ export const BarcodeScanner = () => {
 
           <p>
             {result}
+          </p>
+
+          <p>
+            {maxResolutionDevice && (
+              <>
+                Max Resolution: {maxResolution.width}x{maxResolution.height}
+              </>
+            )}
           </p>
 
           <button onClick={stopScanning}>Cerrar Scan</button>
