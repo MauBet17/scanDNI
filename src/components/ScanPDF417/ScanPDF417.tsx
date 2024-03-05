@@ -1,26 +1,82 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useZxing } from "react-zxing";
+
 
 import "./ScanPDF417.css"
 
+
+
 export const BarcodeScanner = () => {
   const [result, setResult] = useState("");
-  const [scanning, setScanning] = useState(false); 
- 
+  const [scanning, setScanning] = useState(false);
+  const [maxResolution, setMaxResolution] = useState({ width: 0, height: 0 });
+  const [maxResolutionDevice, setMaxResolutionDevice] = useState<MediaDeviceInfo | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices()
+      .then(function (devices) {
+        console.log('Devices:', devices);
+        var videoDevices = devices.filter(function (device) {
+          return device.kind === 'videoinput';
+        });
+
+        videoDevices.forEach(function (device) {
+          navigator.mediaDevices.getUserMedia({
+            video: {
+              deviceId: { exact: device.deviceId }
+            }
+          })
+            .then(function (stream) {
+              console.log('Stream:', stream);
+              var track = stream.getVideoTracks()[0];
+              var capabilities = track.getCapabilities();
+
+              if (capabilities.width && capabilities.height && capabilities.width.max && capabilities.height.max) {
+                if (capabilities.width.max * capabilities.height.max > maxResolution.width * maxResolution.height) {
+                  setMaxResolution({ width: capabilities.width.max, height: capabilities.height.max });
+                  setMaxResolutionDevice(device);
+                }
+              }
+            });
+        });
+      })
+      .catch(function (err) {
+        console.log(err.name + ": " + err.message);
+      });
+  }, []);
+
 
   const startScanning = () => {
-    setResult(""); 
-    setScanning(true); 
+    setResult("");
+    setScanning(true);
+
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        deviceId: { exact: maxResolutionDevice ? maxResolutionDevice.deviceId : undefined },
+        width: { exact: maxResolution.width },
+        height: { exact: maxResolution.height }
+      }
+    })
+      .then(function (stream) {
+        // Use the stream with the video ref
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      })
+      .catch(function (err) {
+        console.log(err.name + ": " + err.message);
+      });
   };
 
-  
+
   const resetScanning = () => {
-    setResult(""); 
-    setScanning(true); 
+    setResult("");
+    setScanning(true);
   };
 
   const stopScanning = () => {
-    setResult(""); 
     setScanning(false);
   };
 
@@ -74,9 +130,9 @@ export const BarcodeScanner = () => {
       if (dataArray.length > 7 && isValidDate(dataArray[7])) {
         console.log("Validación del 8vo dato: correcta, es una fecha - Indica Fecha de Emisión");
       } else {
-        console.log("El 7mo dato no es una fecha válida");
+        console.log("El 8vo dato no es una fecha válida");
       }
-      
+
     },
     paused: !scanning,
   });
