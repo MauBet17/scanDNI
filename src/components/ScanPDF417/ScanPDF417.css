@@ -17,6 +17,6 @@
 }
 
 .videWrapper video{
-  width: 400px !important;
+  width: 100% !important;
   height: 300px !important;
 }
