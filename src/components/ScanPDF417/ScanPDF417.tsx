@@ -8,10 +8,13 @@ export const BarcodeScanner = () => {
   const [scanning, setScanning] = useState(false);
   const { devices } = useMediaDevices({ constraints: { video: true } });
   const deviceId = devices?.[0]?.deviceId;
+  
+
 
   const { ref } = useZxing({
     onDecodeResult(result) {
       console.log("Resultado decodificado:", result.getText());
+     
       const data = result.getText();
       const dataArray = data.split("@");
       if (dataArray.length !== 9) {
@@ -62,7 +65,7 @@ export const BarcodeScanner = () => {
       setResult(data);
     },
     paused: !scanning,
-    deviceId: deviceId 
+    deviceId: deviceId
   });
 
   // Función para validar el formato de fecha
@@ -86,20 +89,21 @@ export const BarcodeScanner = () => {
   return (
     <>
       <div className="scanContent">
-        <div className="videoWrapper">
+        <div className="videWrapper">
           <video ref={ref} />
-          <div className="border"></div>
         </div>
         {!scanning && (
           <button className="btnScan" onClick={startScanning}>Iniciar escaneo</button>
         )}
 
         <div className="results">
-          <h5>Last result:</h5>
+          <h3>Last result:</h3>
           <p>{result}</p>
         </div>
         <button onClick={stopScanning}>Cerrar Scan</button>
       </div>
+
+
     </>
   );
 };
