@@ -35,7 +35,7 @@
 }
 
 .scanVideo {
-    width: 100%; /* Ancho predeterminado */
+    width: 50%; /* Ancho predeterminado */
     height: auto;
   }
 
@@ -66,7 +66,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: calc(98% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
-        height: calc(85% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
+        height: calc(60% - 2px); /* Resta 2px para tener en cuenta el grosor del borde */
         border: 1px solid red; /* Grosor y color del borde */
         pointer-events: none; /* Evita que el borde interfiera con el escaneo */
        
