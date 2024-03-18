@@ -3,37 +3,48 @@
 import { useState, useEffect } from "react";
 import { useZxing } from "react-zxing";
 import "./ScanPDF417.css";
-import { useMediaDevices } from "react-media-devices";
+// import { useMediaDevices } from "react-media-devices";
 
 export const BarcodeScanner = () => {
     const [result, setResult] = useState("");
     const [scanning, setScanning] = useState(false);
-    const [resolution, setResolution] = useState({ width: 0, height: 0 });
-    const { devices } = useMediaDevices({
-        constraints: {
-            video: {
-                width: { ideal: 4096 }, // Ajusta a la resolución ideal de tu cámara
-                height: { ideal: 2160 } // Ajusta a la resolución ideal de tu cámara
-            }
-        }
-    });
-    const deviceId = devices?.[0]?.deviceId;
+    const [resolutions, setResolutions] = useState<{ width: number, height: number }[]>([]);
 
+    const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
 
     useEffect(() => {
-            navigator.mediaDevices.getUserMedia({
-                video: {
-                    width: { ideal: 4096 }, // Ajusta a la resolución ideal de tu cámara
-                    height: { ideal: 2160 } // Ajusta a la resolución ideal de tu cámara
-                }
-            })
-            .then(stream => {
-                const track = stream.getVideoTracks()[0];
-                const settings = track.getSettings();
-                setResolution({ width: settings.width ?? 0, height: settings.height ?? 0 });
+        navigator.mediaDevices.enumerateDevices()
+            .then(deviceInfos => {
+                const videoDevices = deviceInfos.filter(device => device.kind === 'videoinput');
+                setDevices(videoDevices);
             })
             .catch(error => console.error(error));
-        }, []);
+    }, []);
+
+    const deviceId = devices[0]?.deviceId;
+
+    useEffect(() => {
+        const resolutionsPromises = devices.map(async device => {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    deviceId: device.deviceId,
+                    width: { ideal: 4096 }, // Ajusta a la resolución ideal de tu cámara
+                    height: { ideal: 2160 }, // Ajusta a la resolución ideal de tu cámara
+                }
+            });
+            const track = stream.getVideoTracks()[0];
+            const settings = track.getSettings();
+            track.stop(); // Importante: detén la pista después de obtener los ajustes
+            return { width: settings.width, height: settings.height };
+        });
+        Promise.all(resolutionsPromises).then((resolutions: { width: number | undefined; height: number | undefined; }[]) => {
+            const filteredResolutions = resolutions.map(resolution => ({
+              width: resolution.width ?? 0,
+              height: resolution.height ?? 0
+            }));
+            setResolutions(filteredResolutions);
+          });
+    }, [devices]);
 
     const { ref } = useZxing({
         onDecodeResult(result) {
@@ -123,12 +134,14 @@ export const BarcodeScanner = () => {
                 <div className="results">
                     <h3>Last result:</h3>
                     <p>{result}</p>
+        
                 </div>
                 <button onClick={stopScanning}>Cerrar Scan</button>
-                <p>Resolución de la cámara: {resolution.width}x{resolution.height}</p>
+                {devices.map((device, index) => (
+                    <p key={index}>Dispositivo: {device.label}, Resolución: {resolutions[index]?.width}x{resolutions[index]?.height}</p>
+                ))}
             </div>
-
-
+        
         </>
     );
 }
